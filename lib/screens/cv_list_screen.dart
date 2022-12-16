@@ -1,42 +1,42 @@
 import 'package:dogs_db_pseb_bridge/db/database_helper.dart';
-import 'package:dogs_db_pseb_bridge/screens/update_dog_screen.dart';
+import 'package:dogs_db_pseb_bridge/screens/update_cv_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../models/dog.dart';
+import '../models/cv.dart';
 
-class DogsListScreen extends StatefulWidget {
-  const DogsListScreen({Key? key}) : super(key: key);
+class CVListScreen extends StatefulWidget {
+  const CVListScreen({Key? key}) : super(key: key);
 
   @override
-  State<DogsListScreen> createState() => _DogsListScreenState();
+  State<CVListScreen> createState() => _CVListScreenState();
 }
 
-class _DogsListScreenState extends State<DogsListScreen> {
+class _CVListScreenState extends State<CVListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dogs List'),
+        title: const Text('Lista de Compra/Venta'),
       ),
-      body: FutureBuilder<List<Dog>>(
+      body: FutureBuilder<List<CV>>(
         future: DatabaseHelper.instance.getAllDogs(),
-        builder: (BuildContext context, AsyncSnapshot<List<Dog>> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<List<CV>> snapshot) {
           if (!snapshot.hasData) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           } else {
             if (snapshot.data!.isEmpty) {
-              return const Center(child: Text('No Dogs Found in Database'));
+              return const Center(child: Text('No se encuentran Compra/Venta en la Base de datos'));
             } else {
-              List<Dog> dogs = snapshot.data!;
+              List<CV> cove = snapshot.data!;
               return Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: ListView.builder(
-                    itemCount: dogs.length,
+                    itemCount: cove.length,
                     itemBuilder: (context, index) {
-                      Dog dog = dogs[index];
+                      CV dog = cove[index];
                       return Card(
                           margin: const EdgeInsets.only(bottom: 15),
                           child: Padding(
@@ -69,7 +69,7 @@ class _DogsListScreenState extends State<DogsListScreen> {
                                                 await Navigator.of(context)
                                                     .push(MaterialPageRoute(
                                                         builder: (context) {
-                                              return UpdateDogScreen(dog: dog);
+                                              return UpdateCVScreen(cv: dog);
                                             }));
 
                                             if (result == 'done') {
@@ -85,9 +85,9 @@ class _DogsListScreenState extends State<DogsListScreen> {
                                                 builder: (context) {
                                                   return AlertDialog(
                                                     title: const Text(
-                                                        'Confirmation!'),
+                                                        'ATENCIÓN!'),
                                                     content: const Text(
-                                                        'Are you sure to delete ?'),
+                                                        'Estas seguro de que quieres eliminar?'),
                                                     actions: [
                                                       TextButton(
                                                           onPressed: () {
@@ -115,7 +115,7 @@ class _DogsListScreenState extends State<DogsListScreen> {
                                                               Fluttertoast
                                                                   .showToast(
                                                                       msg:
-                                                                          'Dog Deleted');
+                                                                          'Eliminando Compra/Venta...');
                                                               setState(() {});
                                                               // build function will be called
                                                             }

@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../db/database_helper.dart';
-import '../models/dog.dart';
+import '../models/cv.dart';
 
-class UpdateDogScreen extends StatefulWidget {
-  final Dog dog;
+class UpdateCVScreen extends StatefulWidget {
+  final CV cv;
 
-  const UpdateDogScreen({Key? key, required this.dog}) : super(key: key);
+  const UpdateCVScreen({Key? key, required this.cv}) : super(key: key);
 
   @override
-  State<UpdateDogScreen> createState() => _UpdateDogScreenState();
+  State<UpdateCVScreen> createState() => _UpdateCVScreenState();
 }
 
-class _UpdateDogScreenState extends State<UpdateDogScreen> {
+class _UpdateCVScreenState extends State<UpdateCVScreen> {
   late String name;
   late int age;
 
@@ -23,7 +23,7 @@ class _UpdateDogScreenState extends State<UpdateDogScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Update Dog'),
+        title: const Text('Update Compra/Venta'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
@@ -33,11 +33,13 @@ class _UpdateDogScreenState extends State<UpdateDogScreen> {
             child: Column(
               children: [
                 TextFormField(
-                  initialValue: widget.dog.name,
-                  decoration: const InputDecoration(hintText: 'Dog Name'),
+                  initialValue: widget.cv.name,
+                  decoration: const InputDecoration(hintText: 'Compra o Venta?'),
                   validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please provide Dog Name';
+                    if(value == null || value.isEmpty || value != "Compra") {
+                      if(value == null || value != "Venta") {
+                        return 'Tienes que introducir "Compra" o "Venta"';
+                      }
                     }
 
                     name = value;
@@ -48,12 +50,12 @@ class _UpdateDogScreenState extends State<UpdateDogScreen> {
                   height: 10,
                 ),
                 TextFormField(
-                  initialValue: widget.dog.age.toString(),
+                  initialValue: widget.cv.age.toString(),
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(hintText: 'Dog Age'),
+                  decoration: const InputDecoration(hintText: 'Compra/Venta date'),
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please provide Dog Age';
+                      return 'Please provide Compra/Venta date';
                     }
 
                     age = int.parse(value);
@@ -66,10 +68,10 @@ class _UpdateDogScreenState extends State<UpdateDogScreen> {
                 ElevatedButton(
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        var dog = Dog(id: widget.dog.id, name: name, age: age);
+                        var dog = CV(id: widget.cv.id, name: name, age: age);
 
                         var dbHelper = DatabaseHelper.instance;
-                        int result = await dbHelper.updateDog(dog);
+                        int result = await dbHelper.updateCV(dog);
 
                         if (result > 0) {
                           Fluttertoast.showToast(msg: 'Dog Updated');

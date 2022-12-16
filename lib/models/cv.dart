@@ -1,9 +1,9 @@
-class Dog {
+class CV {
   int? id;
   late String name;
   late int age;
 
-  Dog({
+  CV({
     this.id,
     required this.name,
     required this.age,
@@ -20,7 +20,7 @@ class Dog {
   }
 
   // Convert a Map to a Dog Object
-  Dog.fromMap(Map<String, dynamic> map) {
+  CV.fromMap(Map<String, dynamic> map) {
     id = map['id'];
     name = map['name'];
     age = map['age'];
